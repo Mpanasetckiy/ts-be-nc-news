@@ -16,7 +16,7 @@ export const formatComments = (comments, idLookup) => {
     return {
       article_id,
       author: created_by,
-      ...this.convertTimestampToDate(restOfComment),
+      ...convertTimestampToDate(restOfComment),
     };
   });
 };

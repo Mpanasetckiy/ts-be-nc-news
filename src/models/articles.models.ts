@@ -1,6 +1,6 @@
 import db from "../db/connection";
 
-import { ArticleQuery } from "./../controllers/interfaces";
+import { ArticleQuery } from "../controllers/types";
 
 export const fetchArticleById = async (id: string) => {
   const { rows } = await db.query(

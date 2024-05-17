@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-import { ArticleQuery } from "./interfaces";
+import { ArticleQuery } from "./types";
 
 import {
   fetchArticles,
