@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 
-import { ArticleQuery } from "./../types";
+import { ArticleQuery } from "../types";
 
-import * as commentsModel from "../../models/comments";
+import * as commentsModel from "../../../models/comments";
 
 export const getCommentsByArticleId = async (
   req: Request<{ article_id: string }, {}, {}, ArticleQuery>,

@@ -1,16 +1,16 @@
 import { Request, Response, NextFunction } from "express";
 
-import * as articlesModel from "../../models/articles";
+import * as articlesModel from "../../../models/articles";
 
-export const updateArticle = async (
+export const getArticleById = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const { article_id } = req.params;
-    const { inc_vote } = req.body;
-    const article = await articlesModel.updateArticle(article_id, inc_vote);
+    const article = await articlesModel.getArticleById(article_id);
+
     res.status(200).send({ article });
   } catch (error) {
     next(error);

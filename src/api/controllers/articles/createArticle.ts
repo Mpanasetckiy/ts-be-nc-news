@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-import * as articlesModel from "../../models/articles";
+import * as articlesModel from "../../../models/articles";
 
 export const createArticle = async (
   req: Request,

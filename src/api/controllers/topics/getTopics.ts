@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-import * as topicsModel from "../../models/topics";
+import * as topicsModel from "../../../models/topics";
 
 export const getTopics = async (
   req: Request,

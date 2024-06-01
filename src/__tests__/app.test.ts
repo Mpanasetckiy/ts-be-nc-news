@@ -6,7 +6,7 @@ import db from "../db/connection";
 
 import testData from "../db/data/test-data/index";
 
-import { Article, Comment } from "../controllers/types";
+import { Article, Comment } from "../api/controllers/types";
 
 beforeEach(async () => {
   await seed(testData);

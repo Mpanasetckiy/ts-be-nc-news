@@ -2,7 +2,7 @@ import db from "../../db/connection";
 
 import { Article } from "../../db/data/types";
 
-import { ArticleQuery } from "../../controllers/types";
+import { ArticleQuery } from "../../api/controllers/types";
 
 export const getArticles = async (
   queries: ArticleQuery

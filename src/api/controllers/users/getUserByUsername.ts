@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-import * as usersModel from "../../models/users";
+import * as usersModel from "../../../models/users";
 
 export const getUserByUsername = async (
   req: Request,

@@ -1,27 +1,20 @@
 import express, { Application } from "express";
 import cors from "cors";
 
-import { getEndpoints } from "./controllers/api.controller";
-import topicsRoutes from "./routes/topics.routes";
-import usersRoutes from "./routes/users.routes";
-import articlesRoutes from "./routes/articles.routes";
-import commentsRoutes from "./routes/comments.routes";
+import routes from "./api/routes";
 
 import { pgErrorHandling, errorHandling } from "./middleware/error-handling";
 
 const app: Application = express();
 
+// * Tech endpoints
 app.use(cors());
-
 app.use(express.json());
 
-app.get("/api", getEndpoints);
+// * Routes
+app.use("/api", routes);
 
-app.use("/api", usersRoutes);
-app.use("/api", topicsRoutes);
-app.use("/api", articlesRoutes);
-app.use("/api", commentsRoutes);
-
+// * Custom Error Handler
 app.use(pgErrorHandling);
 app.use(errorHandling);
 

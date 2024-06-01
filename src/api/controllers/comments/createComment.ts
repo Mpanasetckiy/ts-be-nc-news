@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-import * as commentsModel from "../../models/comments";
+import * as commentsModel from "../../../models/comments";
 
 export const createComment = async (
   req: Request,
