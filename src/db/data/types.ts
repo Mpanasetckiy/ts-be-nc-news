@@ -1,9 +1,12 @@
-export interface ArticleQuery {
-  sort_by: string;
-  order: string;
-  topic: string;
-  limit: number;
-  p: number;
+export interface User {
+  name: string;
+  username: string;
+  avatar_url: string;
+}
+
+export interface Topic {
+  slug: string;
+  description: string;
 }
 
 export interface Article {
@@ -24,5 +27,5 @@ export interface Comment {
   votes: number;
   author: string;
   article_id: number;
-  created_at: any;
+  created_at: string;
 }

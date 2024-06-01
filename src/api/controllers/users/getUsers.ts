@@ -1,13 +1,15 @@
 import { NextFunction, Request, Response } from "express";
-import endpoints from "../../endpoints.json";
 
-export const getEndpoints = (
+import * as usersModel from "../../../models/users";
+
+export const getUsers = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    res.status(200).send({ endpoints });
+    const users = await usersModel.getUsers();
+    res.status(200).send({ users });
   } catch (error) {
     next(error);
   }
