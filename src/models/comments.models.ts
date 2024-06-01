@@ -1,7 +1,7 @@
 import db from "../db/connection";
 
 import { Comment } from "../db/data/types";
-import { checkArticleExists } from "./articles.models";
+import { checkArticleExists } from "./articles/updateArticle";
 
 export const fetchCommentsByArticleId = async (
   id: string,

@@ -1,22 +1,12 @@
 import express from "express";
 const router = express.Router();
 
-import {
-  getArticleById,
-  getArticles,
-  patchArticle,
-  createArticle,
-  removeArticle,
-} from "../controllers/articles.controllers";
+import * as articlesController from "../controllers/articles";
 
-router.get("/articles", getArticles);
-
-router.get("/articles/:article_id", getArticleById);
-
-router.patch("/articles/:article_id", patchArticle);
-
-router.post("/articles/", createArticle);
-
-router.delete("/articles/:article_id", removeArticle);
+router.get("/articles", articlesController.getArticles);
+router.get("/articles/:article_id", articlesController.getArticleById);
+router.patch("/articles/:article_id", articlesController.updateArticle);
+router.post("/articles/", articlesController.createArticle);
+router.delete("/articles/:article_id", articlesController.deleteArticle);
 
 export default router;
