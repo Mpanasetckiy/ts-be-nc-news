@@ -4,8 +4,6 @@ const router = express.Router();
 import {
   getArticleById,
   getArticles,
-  getCommentsByArticleId,
-  addComment,
   patchArticle,
   createArticle,
   removeArticle,
@@ -14,10 +12,6 @@ import {
 router.get("/articles", getArticles);
 
 router.get("/articles/:article_id", getArticleById);
-
-router.get("/articles/:article_id/comments", getCommentsByArticleId);
-
-router.post("/articles/:article_id/comments", addComment);
 
 router.patch("/articles/:article_id", patchArticle);
 

@@ -5,8 +5,6 @@ import { ArticleQuery } from "./types";
 import {
   fetchArticles,
   fetchArticleById,
-  fetchCommentsByArticleId,
-  createComment,
   updateArticle,
   insertArticle,
   deleteArticle,
@@ -37,36 +35,6 @@ export const getArticles = async (
     const articles = await fetchArticles(allQueries);
 
     res.status(200).send({ articles });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getCommentsByArticleId = async (
-  req: Request<{ article_id: string }, {}, {}, ArticleQuery>,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const { article_id } = req.params;
-    const queries = req.query;
-    const comments = await fetchCommentsByArticleId(article_id, queries);
-    res.status(200).send({ comments });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const addComment = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const { article_id } = req.params;
-    const body = req.body;
-    const newComment = await createComment(article_id, body);
-    res.status(201).send({ newComment });
   } catch (error) {
     next(error);
   }

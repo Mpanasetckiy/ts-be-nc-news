@@ -5,6 +5,7 @@ import { getEndpoints } from "./controllers/api.controller";
 import topicsRoutes from "./routes/topics.routes";
 import usersRoutes from "./routes/users.routes";
 import articlesRoutes from "./routes/articles.routes";
+import commentsRoutes from "./routes/comments.routes";
 
 import { pgErrorHandling, errorHandling } from "./middleware/error-handling";
 
@@ -19,6 +20,7 @@ app.get("/api", getEndpoints);
 app.use("/api", usersRoutes);
 app.use("/api", topicsRoutes);
 app.use("/api", articlesRoutes);
+app.use("/api", commentsRoutes);
 
 app.use(pgErrorHandling);
 app.use(errorHandling);

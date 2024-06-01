@@ -1,8 +1,9 @@
 import db from "../db/connection";
 
+import { Article } from "../db/data/types";
 import { ArticleQuery } from "../controllers/types";
 
-export const fetchArticleById = async (id: string) => {
+export const fetchArticleById = async (id: string): Promise<Article> => {
   const { rows } = await db.query(
     `SELECT articles.author, title, articles.body, articles.article_id, users.name, users.avatar_url AS author_avatar_url, topic, articles.created_at, articles.votes, article_img_url, COUNT(comments) :: INTEGER  AS comment_count
       FROM articles
@@ -20,7 +21,9 @@ export const fetchArticleById = async (id: string) => {
   return rows[0];
 };
 
-export const fetchArticles = async (queries: ArticleQuery) => {
+export const fetchArticles = async (
+  queries: ArticleQuery
+): Promise<Article[]> => {
   const {
     sort_by = "created_at",
     order = "desc",
@@ -73,30 +76,6 @@ export const fetchArticles = async (queries: ArticleQuery) => {
   return rows;
 };
 
-export const fetchCommentsByArticleId = async (
-  id: string,
-  queries: { limit: number; p: number }
-) => {
-  const { limit = 10, p = 1 } = queries;
-  await checkArticleExists(id);
-
-  let sqlStr = `SELECT comment_id, comments.body, comments.article_id, comments.author, users.avatar_url AS author_avatar_url, votes, created_at FROM comments
-    JOIN users ON comments.author = users.username
-    WHERE article_id = $1
-    ORDER BY created_at DESC`;
-
-  if (!isNaN(limit) && !isNaN(p)) {
-    const offset = +limit * +p - 10;
-    sqlStr += ` LIMIT ${limit} OFFSET ${offset}`;
-  } else {
-    return Promise.reject({ status: 400, message: "Bad query value!" });
-  }
-
-  const { rows } = await db.query(sqlStr, [id]);
-
-  return rows;
-};
-
 export const checkArticleExists = async (id: string) => {
   const { rows } = await db.query(
     `SELECT * FROM articles
@@ -108,27 +87,11 @@ export const checkArticleExists = async (id: string) => {
   }
 };
 
-export const createComment = async (
-  id: string,
-  reqBody: { username: string; body: string }
-) => {
-  const { username, body } = reqBody;
-
-  if (typeof body !== "string") {
-    return Promise.reject({ status: 400, message: "Bad request" });
-  }
-
-  const { rows } = await db.query(
-    `INSERT INTO comments
-   (author, body, article_id)
-   VALUES ($1, $2, $3)
-   RETURNING *;`,
-    [username, body, id]
-  );
-  return rows[0];
-};
-
-export const updateArticle = async (articleId: string, inc_vote: string) => {
+export const updateArticle = async (
+  articleId: string,
+  inc_vote: string
+): Promise<Article> => {
+  // to delete it
   await checkArticleExists(articleId);
 
   const { rows } = await db.query(
@@ -148,7 +111,7 @@ export const insertArticle = async (article: {
   author: string;
   body: string;
   article_img_url: string;
-}) => {
+}): Promise<Article> => {
   const defaultArticleUrl =
     "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700";
 
