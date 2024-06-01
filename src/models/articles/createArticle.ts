@@ -34,13 +34,9 @@ export const createArticle = async (articleBody: {
     articles.created_at,
     article_img_url`;
 
-  const { rows } = await db.query(query, [
-    title,
-    topic,
-    author,
-    body,
-    article_img_url,
-  ]);
+  const {
+    rows: [newArticle],
+  } = await db.query(query, [title, topic, author, body, article_img_url]);
 
-  return rows[0];
+  return newArticle;
 };

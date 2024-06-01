@@ -83,7 +83,7 @@ describe("COMMENTS endpoints", () => {
       } = await request(app)
         .get("/api/articles/my_article/comments")
         .expect(400);
-      expect(message).toBe("Bad request");
+      expect(message).toBe("Invalid article id provided");
     });
 
     test("404 - GET: Responds with appropriate error code and body message", async () => {
@@ -100,7 +100,7 @@ describe("COMMENTS endpoints", () => {
       expect(comments).toEqual([]);
     });
   });
-  describe("addComment", () => {
+  describe("createComment", () => {
     test("201 - POST: Responds with a newly created comment object", async () => {
       const comment = {
         username: "lurker",
@@ -133,7 +133,7 @@ describe("COMMENTS endpoints", () => {
         .post("/api/articles/my_article/comments")
         .send(comment)
         .expect(400);
-      expect(message).toBe("Bad request");
+      expect(message).toBe("Invalid article id provided");
     });
 
     test("400 - POST: Responds with appropriate error when missing fields on body provided", async () => {
@@ -238,7 +238,7 @@ describe("COMMENTS endpoints", () => {
         .patch("/api/comments/blahblah")
         .send(votes)
         .expect(400);
-      expect(message).toBe("Bad request");
+      expect(message).toBe("Invalid comment id provided");
     });
 
     test("400 - PATCH: Responds with an appropriate error when invalid inc_vote provided", async () => {

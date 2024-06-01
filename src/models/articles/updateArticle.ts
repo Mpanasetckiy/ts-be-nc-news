@@ -1,32 +1,35 @@
 import db from "../../db/connection";
 
 import { Article } from "../../db/data/types";
-
-export const checkArticleExists = async (id: string) => {
-  const { rows } = await db.query(
-    `SELECT * FROM articles
-      WHERE article_id = $1`,
-    [id]
-  );
-  if (!rows.length) {
-    return Promise.reject({ status: 404, message: "No data found" });
-  }
-};
+import { HttpError } from "../../middleware/error-handling";
 
 export const updateArticle = async (
-  articleId: string,
+  articleId: number,
   inc_vote: string
 ): Promise<Article> => {
-  // to delete it
-  await checkArticleExists(articleId);
+  const { rows: existingRows } = await db.query(
+    `SELECT 
+      article_id 
+     FROM 
+      articles
+     WHERE 
+      article_id = $1`,
+    [articleId]
+  );
 
-  const { rows } = await db.query(
+  if (!existingRows.length) {
+    throw new HttpError(404, "No data found");
+  }
+
+  const {
+    rows: [updatedArticle],
+  } = await db.query(
     `UPDATE articles
-      SET votes = votes + $1
-      WHERE article_id = $2
-      RETURNING *;`,
+     SET votes = votes + $1
+     WHERE article_id = $2
+     RETURNING *;`,
     [inc_vote, articleId]
   );
 
-  return rows[0];
+  return updatedArticle;
 };

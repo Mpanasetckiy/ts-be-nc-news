@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
 import * as commentsModel from "../../../models/comments";
+import { ValidationError } from "../../../middleware/error-handling";
 
 export const createComment = async (
   req: Request,
@@ -8,9 +9,12 @@ export const createComment = async (
   next: NextFunction
 ) => {
   try {
-    const { article_id } = req.params;
+    const articleId = Number(req.params.article_id);
+    if (isNaN(articleId)) {
+      throw new ValidationError("Invalid article id provided");
+    }
     const body = req.body;
-    const newComment = await commentsModel.createComment(article_id, body);
+    const newComment = await commentsModel.createComment(articleId, body);
     res.status(201).send({ newComment });
   } catch (error) {
     next(error);

@@ -57,7 +57,7 @@ describe("ARTICLES endpoints", () => {
       const {
         body: { message },
       } = await request(app).get("/api/articles/my_article").expect(400);
-      expect(message).toBe("Bad request");
+      expect(message).toBe("Invalid article id provided");
     });
 
     test("404 - GET: Responds with appropriate error code and body message", async () => {
@@ -258,7 +258,7 @@ describe("ARTICLES endpoints", () => {
         .patch("/api/articles/blahblah")
         .send(votes)
         .expect(400);
-      expect(message).toBe("Bad request");
+      expect(message).toBe("Invalid article id provided");
     });
 
     test("400 - PATCH: Responds with an appropriate error when invalid inc_vote provided", async () => {
