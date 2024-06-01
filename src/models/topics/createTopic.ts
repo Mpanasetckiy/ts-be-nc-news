@@ -13,6 +13,9 @@ export const createTopic = async (newTopicBody: Topic): Promise<Topic> => {
     slug, 
     description`;
 
-  const { rows } = await db.query(query, [slug, description]);
-  return rows[0];
+  const {
+    rows: [topic],
+  } = await db.query(query, [slug, description]);
+
+  return topic;
 };

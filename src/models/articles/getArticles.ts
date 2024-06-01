@@ -3,6 +3,7 @@ import db from "../../db/connection";
 import { Article } from "../../db/data/types";
 
 import { ArticleQuery } from "../../api/controllers/types";
+import { ValidationError } from "../../middleware/error-handling";
 
 export const getArticles = async (
   queries: ArticleQuery
@@ -34,12 +35,28 @@ export const getArticles = async (
 
   const queryValues = [];
 
-  let sqlStr = `SELECT articles.article_id, articles.author, users.avatar_url AS author_avatar_url, title, articles.body, topic, articles.created_at, articles.votes, article_img_url, COUNT(comments) :: INT AS comment_count
-      FROM articles
-      LEFT JOIN comments ON 
-      articles.article_id = comments.article_id
-      JOIN users ON
-      articles.author = users.username`;
+  let sqlStr = `
+  SELECT 
+    articles.article_id, 
+    articles.author, 
+    users.avatar_url AS author_avatar_url, 
+    title, 
+    articles.body, 
+    topic, 
+    articles.created_at, 
+    articles.votes, 
+    article_img_url, 
+    COUNT(comments) :: INT AS comment_count
+  FROM 
+    articles
+  LEFT JOIN 
+    comments 
+  ON 
+    articles.article_id = comments.article_id
+  JOIN 
+    users 
+  ON
+    articles.author = users.username`;
 
   if (topic) {
     sqlStr += " WHERE topic = $1";
@@ -53,8 +70,8 @@ export const getArticles = async (
     const offset = +limit * +p - 10;
     sqlStr += ` LIMIT ${limit} OFFSET ${offset}`;
   } else {
-    return Promise.reject({ status: 400, message: "Bad query value!" });
+    throw new ValidationError("Bad query value!");
   }
-  const { rows } = await db.query(sqlStr, queryValues);
-  return rows;
+  const { rows: articles } = await db.query(sqlStr, queryValues);
+  return articles;
 };

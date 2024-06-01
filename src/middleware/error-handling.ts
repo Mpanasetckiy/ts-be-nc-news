@@ -50,10 +50,10 @@ export const pgErrorHandling = (
   next: NextFunction
 ) => {
   if (err.code === "23502" || err.code === "22P02") {
-    console.log(err.code, err.message);
+    // console.log(err.code, err.message);
     res.status(400).send({ message: "Bad request" });
   } else if (err.code === "23503") {
-    console.log(err.code, err.message);
+    // console.log(err.code, err.message);
     res.status(404).send({ message: "No key found" });
   } else {
     next(err);
@@ -61,11 +61,11 @@ export const pgErrorHandling = (
 };
 
 export const errorHandling = (
-  err: HttpError,
+  err: HttpError | ValidationError,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  console.log(err.status, err.message);
+  // console.log(err.status, err.message);
   res.status(err.status).send({ message: err.message });
 };

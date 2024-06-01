@@ -2,22 +2,34 @@ import db from "../../db/connection";
 
 import { Comment } from "../../db/data/types";
 
+import { ValidationError } from "../../middleware/error-handling";
+
 export const createComment = async (
-  id: string,
+  articleId: number,
   reqBody: { username: string; body: string }
 ): Promise<Comment> => {
   const { username, body } = reqBody;
 
   if (typeof body !== "string") {
-    return Promise.reject({ status: 400, message: "Bad request" });
+    throw new ValidationError("Bad request");
   }
 
-  const { rows } = await db.query(
-    `INSERT INTO comments
-     (author, body, article_id)
-     VALUES ($1, $2, $3)
-     RETURNING *;`,
-    [username, body, id]
-  );
-  return rows[0];
+  const query = `
+  INSERT INTO 
+    comments
+    (author, body, article_id)
+  VALUES ($1, $2, $3)
+  RETURNING 
+  comment_id, 
+  body, 
+  votes, 
+  author, 
+  article_id, 
+  created_at`;
+
+  const {
+    rows: [newComment],
+  } = await db.query(query, [username, body, articleId]);
+
+  return newComment;
 };
