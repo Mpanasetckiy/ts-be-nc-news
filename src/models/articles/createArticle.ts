@@ -2,7 +2,7 @@ import db from "../../db/connection";
 
 import { Article } from "../../db/data/types";
 
-export const createArticle = async (article: {
+export const createArticle = async (articleBody: {
   title: string;
   topic: string;
   author: string;
@@ -18,16 +18,29 @@ export const createArticle = async (article: {
     author,
     body,
     article_img_url = defaultArticleUrl,
-  } = article;
+  } = articleBody;
 
-  const { rows } = await db.query(
-    `INSERT INTO articles
-      (title, topic, author, body, article_img_url)
-      VALUES ($1, $2, $3, $4, $5)
-      RETURNING *`,
-    [title, topic, author, body, article_img_url]
-  );
-  const { article_id } = rows[0];
-  // const newArticle = await fetchArticleById(article_id);
+  const query = `
+  INSERT INTO articles
+    (title, topic, author, body, article_img_url)
+  VALUES ($1, $2, $3, $4, $5)
+  RETURNING 
+    articles.author,
+    articles.article_id,
+    title,
+    topic,
+    body,
+    articles.votes,
+    articles.created_at,
+    article_img_url`;
+
+  const { rows } = await db.query(query, [
+    title,
+    topic,
+    author,
+    body,
+    article_img_url,
+  ]);
+
   return rows[0];
 };
