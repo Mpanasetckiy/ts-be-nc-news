@@ -30,7 +30,7 @@ export const getArticles = async (
     !acceptedSortQueries.includes(sort_by) ||
     !acceptedQueries.includes(order)
   ) {
-    return Promise.reject({ status: 400, message: "Bad query value!" });
+    throw new ValidationError("Bad query value!");
   }
 
   const queryValues = [];
@@ -73,5 +73,6 @@ export const getArticles = async (
     throw new ValidationError("Bad query value!");
   }
   const { rows: articles } = await db.query(sqlStr, queryValues);
+
   return articles;
 };

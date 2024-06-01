@@ -10,7 +10,7 @@ export const createComment = async (
 ): Promise<Comment> => {
   const { username, body } = reqBody;
 
-  if (typeof body !== "string") {
+  if (typeof body !== "string" || typeof username !== "string") {
     throw new ValidationError("Bad request");
   }
 
