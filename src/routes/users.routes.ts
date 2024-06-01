@@ -1,10 +1,9 @@
 import express from "express";
 const router = express.Router();
 
-import { getUsers, getUserByUsername } from "../controllers/users.controllers";
+import * as usersController from "../controllers/users";
 
-router.get("/users", getUsers);
-
-router.get("/users/:username", getUserByUsername);
+router.get("/users", usersController.getUsers);
+router.get("/users/:username", usersController.getUserByUsername);
 
 export default router;
