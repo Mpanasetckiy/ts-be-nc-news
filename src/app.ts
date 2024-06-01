@@ -2,10 +2,14 @@ import express, { Application } from "express";
 import cors from "cors";
 
 import routes from "./api/routes";
+import swaggerRouter from "./swagger";
 
 import { pgErrorHandling, errorHandling } from "./middleware/error-handling";
 
 const app: Application = express();
+
+// * Swagger
+app.use(swaggerRouter);
 
 // * Tech endpoints
 app.use(cors());
