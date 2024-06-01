@@ -1,10 +1,6 @@
 import db from "../db/connection";
 
-interface User {
-  name: string;
-  username: string;
-  avatar_url: string;
-}
+import { User } from "../db/data/types";
 
 export const fetchUsers = async (): Promise<User[]> => {
   const { rows } = await db.query(

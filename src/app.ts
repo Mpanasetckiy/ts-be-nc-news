@@ -2,6 +2,7 @@ import express, { Application } from "express";
 import cors from "cors";
 
 import { getEndpoints } from "./controllers/api.controller";
+import topicsRoutes from "./routes/topics.routes";
 import usersRoutes from "./routes/users.routes";
 import articlesRoutes from "./routes/articles.routes";
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.get("/api", getEndpoints);
 
 app.use("/api", usersRoutes);
+app.use("/api", topicsRoutes);
 app.use("/api", articlesRoutes);
 
 app.use(pgErrorHandling);

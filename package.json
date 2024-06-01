@@ -6,7 +6,10 @@
   "scripts": {
     "start": "npm run build && node dist/listen.js",
     "build": "rimraf ./dist && tsc",
-    "start:dev": "npx nodemon",
+    "start-dev": "npx nodemon",
+    "setup-dbs": "psql -f ./db/setup.sql",
+    "seed-prod": "NODE_ENV=production npm run seed",
+    "seed": "node ./db/seeds/run-seed.js",
     "test": "jest"
   },
   "keywords": [],
