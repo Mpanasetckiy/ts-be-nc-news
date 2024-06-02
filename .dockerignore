@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+Dockerfile*
+docker-compose*
+.git
+.gitignore
+nodemon.json
+jest.config.ts
+src/__tests__
+.husky
+.env.*

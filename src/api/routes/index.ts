@@ -6,17 +6,6 @@ import * as commentsController from "../controllers/comments";
 import * as topicsController from "../controllers/topics";
 import * as usersController from "../controllers/users";
 
-import endpoints from "../../../endpoints.json";
-
-// API documentation
-router.get("/", (req: Request, res: Response, next: NextFunction) => {
-  try {
-    res.status(200).send({ endpoints });
-  } catch (error) {
-    next(error);
-  }
-});
-
 // * Articles
 router.get("/articles", articlesController.getArticles);
 router.get("/articles/:article_id", articlesController.getArticleById);
