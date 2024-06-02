@@ -15,10 +15,10 @@ To set up the local environment, follow these steps:
 1. Clone the repository from GitHub:
 
    ```
-   git clone https://github.com/Mpanasetckiy/be-nc-news.git
+   git clone https://github.com/Mpanasetckiy/ts-be-nc-news.git
    ```
 
-2. You will need to create two `.env` files for your project: `.env.test` and `.env.development`. Into each, add `PGDATABASE=`, with the correct database name for that environment (see `/db/setup.sql` for the database names). Double check that these `.env` files are `.gitignored`.
+2. You will need to create `.env` files for your project: `.env.test`, `.env.development` and `.env.production`. Into first two, add `PGDATABASE=`, with the correct local database name for that environment (see /db/setup.sql for the database names). For the production file add `DATABASE_URL= `with the connection string given from Supabase. Double check that these `.env` files are `.gitignored`.
 
 3. You'll need to run npm install at this point.
 
@@ -36,6 +36,12 @@ To set up the local environment, follow these steps:
 
    ```
    npm run seed
+   ```
+
+6. In order to run ts server type following command:
+
+   ```
+   npm run start-dev
    ```
 
 ## Testing
@@ -74,78 +80,4 @@ https://be-nc-news-0820.onrender.com/api
 
 ### Endpoints
 
-For detailed information on available endpoints and their outcome, refer to the [Endpoints Description](https://be-nc-news-0820.onrender.com/api).
-
-### Available Endpoints
-
-#### General
-
-`GET /api`
-
-- responds with a list of available endpoints
-
-`GET /api/topics`
-
-- responds with a list of topics
-
-`POST /api/topics`
-
-- serves with a newly created topic
-
-#### Articles
-
-`GET /api/articles`
-
-- responds with a list of articles
-
-`GET /api/articles (queries)`
-
-- allows articles to be filtered and sorted
-
-`GET /api/articles/:article_id`
-
-- responds with a single article by article_id
-
-`GET /api/articles/:article_id (comment count)`
-
-- adds a comment count to the response when retrieving a single article
-
-`POST /api/articles`
-
-- creates an article and serves with a newly created article
-
-`PATCH /api/articles/:article_id`
-
-- updates an article by article_id
-
-`DELETE /api/articles/:article_id`
-
-- deletes an article by article_id
-
-#### Comments
-
-`GET /api/articles/:article_id/comments`
-
-- responds with a list of comments by article_id
-
-`POST /api/articles/:article_id/comments`
-
-- add a comment by article_id
-
-`PATCH /api/comments/:comment_id`
-
-- updates a comment by comment_id
-
-`DELETE /api/comments/:comment_id`
-
-- deletes a comment by comment_id
-
-#### Users
-
-`GET /api/users`
-
-- responds with a list of users
-
-`GET /api/users/:username`
-
-- responds with a user by username
+For detailed information on available endpoints and their outcome, refer to the [OPEN API Endpoints Documentation](https://be-nc-news-0820.onrender.com/api).
