@@ -19,3 +19,27 @@ export const getArticleById = async (
     next(error);
   }
 };
+
+/**
+ * @swagger
+ * /api/articles/{article_id}:
+ *   get:
+ *     summary: Get article by article_id
+ *     tags: [Articles]
+ *     description: Retrieve an article with the corresponding id.
+ *     parameters:
+ *       - name: article_id
+ *         in: path
+ *         description: ID of article to return
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           format: int64
+ *     responses:
+ *       200:
+ *         description: Responds with an article with the corresponding id
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Article'
+ */
