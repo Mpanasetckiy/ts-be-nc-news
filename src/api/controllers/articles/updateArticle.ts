@@ -21,3 +21,40 @@ export const updateArticle = async (
     next(error);
   }
 };
+
+/**
+ * @swagger
+ * /api/articles/{article_id}:
+ *   patch:
+ *     summary: Update article
+ *     tags: [Articles]
+ *     description: Update an article with corresponding id.
+ *     parameters:
+ *       - name: article_id
+ *         in: path
+ *         description: ID of article to delete
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               inc_vote:
+ *                 type: integer
+ *                 description: The number of votes the article has to be updated
+ *     responses:
+ *       201:
+ *         description: Responds with a newly created article
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Article'
+ *       400:
+ *         $ref: '#/components/responses/400'
+ *       404:
+ *         $ref: '#/components/responses/404'
+ */

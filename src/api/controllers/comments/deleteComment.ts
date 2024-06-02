@@ -15,3 +15,26 @@ export const deleteComment = async (
     next(error);
   }
 };
+
+/**
+ * @swagger
+ * /api/comments/{comment_id}:
+ *   delete:
+ *     summary: Delete a comment
+ *     tags: [Comments]
+ *     description: Delete a comment with the corresponding id.
+ *     parameters:
+ *       - name: comment_id
+ *         in: path
+ *         description: ID of a comment to delete
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       204:
+ *         description: Deletes a comment with the corresponding id
+ *       400:
+ *         $ref: '#/components/responses/400'
+ *       404:
+ *         $ref: '#/components/responses/404'
+ */

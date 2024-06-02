@@ -14,3 +14,21 @@ export const getUsers = async (
     next(error);
   }
 };
+
+/**
+ * @swagger
+ * /api/users:
+ *   get:
+ *     summary: Get all users
+ *     tags: [Users]
+ *     description: Retrieve a list of all users.
+ *     responses:
+ *       200:
+ *         description: Responds with an array of all users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ */

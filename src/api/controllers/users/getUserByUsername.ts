@@ -15,3 +15,30 @@ export const getUserByUsername = async (
     next(error);
   }
 };
+
+/**
+ * @swagger
+ * /api/users/{username}:
+ *   get:
+ *     summary: Get user by username
+ *     tags: [Users]
+ *     description: Retrieve a user with the corresponding username.
+ *     parameters:
+ *       - name: username
+ *         in: path
+ *         description: username to retrieve
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Responds with a user with the corresponding username
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         $ref: '#/components/responses/400'
+ *       404:
+ *         $ref: '#/components/responses/404'
+ */

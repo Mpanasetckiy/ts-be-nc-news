@@ -25,3 +25,30 @@ export const getCommentsByArticleId = async (
     next(error);
   }
 };
+
+/**
+ * @swagger
+ * /api/articles/{article_id}/comments:
+ *   get:
+ *     summary: Get comments by article_id
+ *     tags: [Comments]
+ *     description: Retrieve comments of the corresponding article id.
+ *     parameters:
+ *       - name: article_id
+ *         in: path
+ *         description: ID of corresponding article
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Responds with an array of comments with the corresponding article id
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Comment'
+ *       400:
+ *         $ref: '#/components/responses/400'
+ *       404:
+ *         $ref: '#/components/responses/404'
+ */

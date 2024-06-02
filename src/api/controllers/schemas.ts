@@ -1,6 +1,27 @@
 /**
  * @swagger
  * components:
+ *   responses:
+ *     404:
+ *         description: No found error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Error message indicating the requested resource was not found.
+ *     400:
+ *         description: Bad request error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Error message indicating that invalid input is provided.
  *   schemas:
  *     Article:
  *       type: object
