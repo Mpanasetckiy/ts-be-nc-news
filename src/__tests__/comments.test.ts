@@ -214,7 +214,7 @@ describe("COMMENTS endpoints", () => {
 
   describe("patchComment", () => {
     test("200 - PATCH: Responds with an updated comment", async () => {
-      const votes = { inc_votes: -1 };
+      const votes = { inc_vote: -1 };
       const {
         body: { updatedComment },
       } = await request(app).patch("/api/comments/1").send(votes).expect(200);

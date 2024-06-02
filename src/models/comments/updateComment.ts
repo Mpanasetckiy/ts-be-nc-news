@@ -6,10 +6,10 @@ import { HttpError } from "../../middleware/error-handling";
 
 export const updateComment = async (
   id: number,
-  inc_votes: number
+  inc_vote: number
 ): Promise<Comment> => {
   const { rows: existingRows } = await db.query(
-    ` SELECT 
+    `SELECT 
     comments.comment_id 
       FROM 
     comments 
@@ -35,7 +35,7 @@ export const updateComment = async (
     author, 
     article_id, 
     created_at`,
-    [inc_votes, id]
+    [inc_vote, id]
   );
 
   return updatedComment;
