@@ -1,4 +1,4 @@
-module.exports = [
+export const articleData = [
   {
     title: "Living in the shadow of a great man",
     topic: "mitch",

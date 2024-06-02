@@ -1,4 +1,4 @@
-module.exports = [
+export const articleData = [
   {
     title: "Running a Node App",
     topic: "coding",

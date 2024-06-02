@@ -8,8 +8,9 @@
     "build": "rimraf ./dist && tsc",
     "start-dev": "npx nodemon",
     "setup-dbs": "psql -f ./src/db/setup.sql",
+    "seed-test": "NODE_ENV=test npm run seed",
     "seed-prod": "NODE_ENV=production npm run seed",
-    "seed": "node ./src/db/seeds/run-seed.js",
+    "seed": "ts-node ./src/db/seeds/run-seed.ts",
     "test": "clear & jest --runInBand",
     "prepare": "husky"
   },

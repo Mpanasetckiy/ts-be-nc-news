@@ -1,4 +1,4 @@
-module.exports = [
+export const commentData = [
   {
     body: "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
     votes: 16,
