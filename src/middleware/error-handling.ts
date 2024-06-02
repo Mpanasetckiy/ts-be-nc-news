@@ -1,9 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 
-interface PgError extends Error {
-  code?: string;
-}
-
 export class HttpError extends Error {
   public status: number;
   public message: string;
@@ -43,29 +39,26 @@ export class PostgresError extends Error {
   }
 }
 
-export const pgErrorHandling = (
-  err: PostgresError,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  if (err.code === "23502" || err.code === "22P02") {
-    // console.log(err.code, err.message);
-    res.status(400).send({ message: "Bad request" });
-  } else if (err.code === "23503") {
-    // console.log(err.code, err.message);
-    res.status(404).send({ message: "No key found" });
-  } else {
-    next(err);
-  }
-};
-
 export const errorHandling = (
-  err: HttpError | ValidationError,
+  err: PostgresError | HttpError | ValidationError,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  // console.log(err.status, err.message);
-  res.status(err.status).send({ message: err.message });
+  if ("code" in err) {
+    // Handle PostgreSQL-specific errors
+    if (err.code === "23502" || err.code === "22P02") {
+      err = new ValidationError("Bad request");
+    } else if (err.code === "23503") {
+      err = new HttpError(404, "No key found");
+    } else {
+      res.status(500).send({ message: "Internal Server Error" });
+      return;
+    }
+  }
+
+  // Handle generic application errors
+  res
+    .status(err.status || 500)
+    .send({ message: err.message || "Internal Server Error" });
 };

@@ -4,7 +4,7 @@ import cors from "cors";
 import routes from "./api/routes";
 import swaggerRouter from "./swagger";
 
-import { pgErrorHandling, errorHandling } from "./middleware/error-handling";
+import { errorHandling } from "./middleware/error-handling";
 
 const app: Application = express();
 
@@ -19,7 +19,6 @@ app.use(express.json());
 app.use("/api", routes);
 
 // * Custom Error Handler
-app.use(pgErrorHandling);
 app.use(errorHandling);
 
 export default app;
