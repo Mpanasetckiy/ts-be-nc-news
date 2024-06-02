@@ -76,8 +76,8 @@ Ensure that your system meets the following requirements to use the API:
 
 This URL is for accessing the NEWS API:
 
-https://be-nc-news-0820.onrender.com/api
+https://ts-be-nc-news-jsmapzdgsq-nw.a.run.app
 
 ### Endpoints
 
-For detailed information on available endpoints and their outcome, refer to the [OPEN API Endpoints Documentation](https://be-nc-news-0820.onrender.com/api).
+For detailed information on available endpoints and their outcome, refer to the [OPEN API Endpoints Documentation](https://ts-be-nc-news-jsmapzdgsq-nw.a.run.app/api-docs/).
