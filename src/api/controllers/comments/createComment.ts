@@ -20,3 +20,45 @@ export const createComment = async (
     next(error);
   }
 };
+
+/**
+ * @swagger
+ * /api/articles/{article_id}/comments:
+ *   post:
+ *     summary: Post a comment on an article
+ *     tags: [Comments]
+ *     description: Post a comment on an article
+ *     parameters:
+ *       - name: article_id
+ *         in: path
+ *         description: ID of corresponding article
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 example: "lurker"
+ *                 description: "The username of the author of the comment"
+ *               body:
+ *                 type: string
+ *                 example: "cats don't like dogs"
+ *                 description: "The body of the comment"
+ *     responses:
+ *       201:
+ *         description: Responds with a newly created comment
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Comment'
+ *       400:
+ *         $ref: '#/components/responses/400'
+ *       404:
+ *         $ref: '#/components/responses/404'
+ */

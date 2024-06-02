@@ -22,7 +22,7 @@ export const createTopic = async (
  * @swagger
  * /api/topics:
  *   post:
- *     summary: Post a topics
+ *     summary: Post a topic
  *     tags: [Topics]
  *     description: Post a topic.
  *     requestBody:
