@@ -17,3 +17,38 @@ export const createTopic = async (
     next(error);
   }
 };
+
+/**
+ * @swagger
+ * /api/topics:
+ *   post:
+ *     summary: Post a topics
+ *     tags: [Topics]
+ *     description: Post a topic.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               slug:
+ *                 type: string
+ *                 example: "Protect amur tigers"
+ *                 description: The uniq name of the topic
+ *               description:
+ *                 type: string
+ *                 example: "Cats don't like to be wet"
+ *                 description: Description of the topic.
+ *     responses:
+ *       201:
+ *         description: Responds with a newly created topic
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Topic'
+ *       400:
+ *         $ref: '#/components/responses/400'
+ *       404:
+ *         $ref: '#/components/responses/404'
+ */

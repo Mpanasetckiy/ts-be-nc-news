@@ -14,3 +14,21 @@ export const getTopics = async (
     next(error);
   }
 };
+
+/**
+ * @swagger
+ * /api/topics:
+ *   get:
+ *     summary: Get all topics
+ *     tags: [Topics]
+ *     description: Retrieve a list of all topics.
+ *     responses:
+ *       200:
+ *         description: Responds with an array of all topics.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Topic'
+ */

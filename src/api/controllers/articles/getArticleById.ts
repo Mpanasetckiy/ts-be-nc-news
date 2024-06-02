@@ -42,4 +42,8 @@ export const getArticleById = async (
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Article'
+ *       400:
+ *         $ref: '#/components/responses/400'
+ *       404:
+ *         $ref: '#/components/responses/404'
  */
