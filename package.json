@@ -10,7 +10,8 @@
     "setup-dbs": "psql -f ./src/db/setup.sql",
     "seed-prod": "NODE_ENV=production npm run seed",
     "seed": "node ./src/db/seeds/run-seed.js",
-    "test": "clear & jest --runInBand"
+    "test": "clear & jest --runInBand",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +28,7 @@
     "@types/supertest": "^6.0.2",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.6",
+    "husky": "^9.0.11",
     "jest": "^29.7.0",
     "jest-extended": "^4.0.2",
     "jest-sorted": "^1.0.15",
@@ -39,11 +41,11 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "pg": "^8.11.5"
+    "pg": "^8.11.5",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   }
 }
