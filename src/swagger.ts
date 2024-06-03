@@ -18,6 +18,10 @@ const swaggerOptions = {
         url: "http://localhost:8000",
         description: "Development server",
       },
+      {
+        url: "https://ts-be-nc-news-jsmapzdgsq-nw.a.run.app",
+        description: "Production server",
+      },
     ],
   },
   apis: ["./src/api/controllers/**/*.ts"], // Path to the API routes/controllers
