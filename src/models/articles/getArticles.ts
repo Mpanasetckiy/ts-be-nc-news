@@ -8,13 +8,17 @@ import { ValidationError } from "../../middleware/error-handling";
 export const getArticles = async (
   queries: ArticleQuery
 ): Promise<Article[]> => {
-  const {
-    sort_by = "created_at",
-    order = "desc",
-    topic,
-    limit = 10,
-    p = 1,
-  } = queries;
+  let { sort_by, order, topic, limit, p } = queries;
+
+  // Validation
+  sort_by = sort_by === "null" ? undefined : sort_by;
+  order = order === "null" ? undefined : order;
+  topic = topic === "null" ? undefined : topic;
+
+  sort_by = sort_by || "created_at";
+  order = order || "desc";
+  limit = limit || 10;
+  p = p || 1;
 
   const acceptedQueries = ["asc", "desc"];
   const acceptedSortQueries = [
@@ -66,7 +70,7 @@ export const getArticles = async (
   sqlStr += ` GROUP BY articles.article_id, users.username
        ORDER BY ${sort_by} ${order}`;
 
-  if (!isNaN(limit) && !isNaN(p)) {
+  if (!Number.isNaN(limit) && !Number.isNaN(p)) {
     const offset = +limit * +p - 10;
     sqlStr += ` LIMIT ${limit} OFFSET ${offset}`;
   } else {
