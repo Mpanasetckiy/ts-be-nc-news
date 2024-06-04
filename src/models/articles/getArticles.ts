@@ -70,7 +70,7 @@ export const getArticles = async (
   sqlStr += ` GROUP BY articles.article_id, users.username
        ORDER BY ${sort_by} ${order}`;
 
-  if (!Number.isNaN(limit) && !Number.isNaN(p)) {
+  if (!isNaN(limit) && !isNaN(p)) {
     const offset = +limit * +p - 10;
     sqlStr += ` LIMIT ${limit} OFFSET ${offset}`;
   } else {
