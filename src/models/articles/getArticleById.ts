@@ -16,7 +16,7 @@ export const getArticleById = async (articleId: number): Promise<Article> => {
     articles.created_at, 
     articles.votes, 
     article_img_url, 
-    COUNT(comments) :: INTEGER  AS comment_count
+    COUNT(comments.comment_id) :: INTEGER AS comment_count
   FROM 
     articles
   LEFT JOIN 
