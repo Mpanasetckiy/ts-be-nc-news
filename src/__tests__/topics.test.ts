@@ -13,7 +13,7 @@ beforeEach(async () => {
 });
 
 afterAll(async () => {
-  await db.end();
+  await db.close();
 });
 
 describe("TOPICS endpoints", () => {

@@ -1,15 +1,10 @@
-import db from "../../db/connection";
-
 import { User } from "../../db/data/types";
+import * as models from "../../db/models";
 
 export const getUsers = async (): Promise<User[]> => {
-  const { rows: users } = await db.query(
-    `SELECT 
-      username, 
-      name, 
-      avatar_url 
-    FROM 
-      users;`
-  );
+  const users = await models.User.findAll({
+    attributes: ["username", "name", "avatar_url"],
+  });
+
   return users;
 };

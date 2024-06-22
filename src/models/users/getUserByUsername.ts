@@ -1,23 +1,15 @@
-import db from "../../db/connection";
-
 import { User } from "../../db/data/types";
+import * as models from "../../db/models";
 
 import { HttpError } from "../../middleware/error-handling";
 
 export const getUserByUsername = async (username: string): Promise<User> => {
-  const query = `
-  SELECT 
-    username, 
-    name, 
-    avatar_url 
-  FROM 
-    users
-  WHERE 
-    username = $1`;
-
-  const {
-    rows: [user],
-  } = await db.query(query, [username]);
+  const user = await models.User.findOne({
+    attributes: ["username", "name", "avatar_url"],
+    where: {
+      username: username,
+    },
+  });
 
   if (!user) {
     throw new HttpError(404, "No data found");
