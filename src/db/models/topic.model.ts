@@ -8,5 +8,6 @@ export const Topic = db.define("Topic", {
   },
   description: {
     type: DataTypes.STRING,
+    allowNull: true,
   },
 });

@@ -8,7 +8,7 @@ dotenv.config({
   path: `${__dirname}/../../.env.${ENV}`,
 });
 
-const config: any = { dialect: "postgres" };
+const config: any = { dialect: "postgres", logging: false };
 
 if (ENV === "production") {
   config.url = process.env.DATABASE_URL;
