@@ -7,10 +7,10 @@ import devData from "../data/development-data";
 const ENV = process.env.NODE_ENV || "development";
 
 const runDevSeed = () => {
-  return seed(devData).then(() => db.end());
+  return seed(devData).then(() => db.close());
 };
 const runTestSeed = () => {
-  return seed(testData).then(() => db.end());
+  return seed(testData).then(() => db.close());
 };
 
 if (ENV === "test") {

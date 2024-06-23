@@ -1,40 +1,43 @@
-import db from "../../db/connection";
+import { Sequelize } from "sequelize";
+import * as models from "../../db/models";
 
 import { Article } from "../../db/data/types";
 import { HttpError } from "../../middleware/error-handling";
 
 export const getArticleById = async (articleId: number): Promise<Article> => {
-  const query = `
-  SELECT 
-    articles.author, 
-    title, 
-    articles.body, 
-    articles.article_id, 
-    users.name, 
-    users.avatar_url AS author_avatar_url, 
-    topic, 
-    articles.created_at, 
-    articles.votes, 
-    article_img_url, 
-    COUNT(comments) :: INTEGER  AS comment_count
-  FROM 
-    articles
-  LEFT JOIN 
-    comments 
-  ON 
-    articles.article_id = comments.article_id
-  JOIN 
-    users 
-  ON
-    articles.author = users.username
-  WHERE 
-    articles.article_id = $1
-  GROUP BY 
-    articles.article_id, users.username;`;
-
-  const {
-    rows: [article],
-  } = await db.query(query, [articleId]);
+  const article = await models.Article.findOne({
+    attributes: [
+      "article_id",
+      "topic",
+      "author",
+      [Sequelize.col("user.avatar_url"), "author_avatar_url"],
+      "title",
+      "body",
+      "votes",
+      "article_img_url",
+      "created_at",
+      [
+        Sequelize.cast(
+          Sequelize.fn("COUNT", Sequelize.col("comments")),
+          "integer"
+        ),
+        "comment_count",
+      ],
+    ],
+    include: [
+      {
+        model: models.Comment,
+        attributes: [],
+      },
+      {
+        model: models.User,
+        attributes: [],
+        required: true,
+      },
+    ],
+    where: { article_id: articleId },
+    group: ["articles.article_id", "user.username"],
+  });
 
   if (!article) {
     throw new HttpError(404, "No data found");

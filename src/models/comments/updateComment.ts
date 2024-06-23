@@ -1,5 +1,4 @@
-import db from "../../db/connection";
-
+import * as models from "../../db/models";
 import { Comment } from "../../db/data/types";
 
 import { HttpError } from "../../middleware/error-handling";
@@ -8,35 +7,25 @@ export const updateComment = async (
   id: number,
   inc_vote: number
 ): Promise<Comment> => {
-  const { rows: existingRows } = await db.query(
-    `SELECT 
-    comments.comment_id 
-      FROM 
-    comments 
-      WHERE 
-    comment_id = $1`,
-    [id]
-  );
+  const comment = await models.Comment.findOne({
+    where: { comment_id: id },
+    attributes: [
+      "comment_id",
+      "body",
+      "article_id",
+      "author",
+      "votes",
+      "created_at",
+    ],
+  });
 
-  if (!existingRows.length) {
+  if (!comment) {
     throw new HttpError(404, "No data found");
   }
 
-  const {
-    rows: [updatedComment],
-  } = await db.query(
-    `UPDATE comments
-    SET votes = votes + $1
-    WHERE comment_id = $2
-    RETURNING 
-    comment_id, 
-    body, 
-    votes, 
-    author, 
-    article_id, 
-    created_at`,
-    [inc_vote, id]
-  );
+  comment.votes = comment.votes + inc_vote;
 
-  return updatedComment;
+  await comment.save();
+
+  return comment;
 };

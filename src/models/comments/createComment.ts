@@ -1,8 +1,8 @@
-import db from "../../db/connection";
+import * as models from "../../db/models";
 
 import { Comment } from "../../db/data/types";
 
-import { ValidationError } from "../../middleware/error-handling";
+import { HttpError, ValidationError } from "../../middleware/error-handling";
 
 export const createComment = async (
   articleId: number,
@@ -14,22 +14,19 @@ export const createComment = async (
     throw new ValidationError("Bad request");
   }
 
-  const query = `
-  INSERT INTO 
-    comments
-    (author, body, article_id)
-  VALUES ($1, $2, $3)
-  RETURNING 
-  comment_id, 
-  body, 
-  votes, 
-  author, 
-  article_id, 
-  created_at`;
+  const article = await models.Article.findOne({
+    where: { article_id: articleId },
+  });
 
-  const {
-    rows: [newComment],
-  } = await db.query(query, [username, body, articleId]);
+  if (!article) {
+    throw new HttpError(404, "No key found");
+  }
+
+  const newComment = await models.Comment.create({
+    author: username,
+    body: body,
+    article_id: articleId,
+  });
 
   return newComment;
 };

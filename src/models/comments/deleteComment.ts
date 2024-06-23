@@ -1,15 +1,12 @@
-import db from "../../db/connection";
+import * as models from "../../db/models";
 
 import { HttpError } from "../../middleware/error-handling";
 
 export const deleteComment = async (comment_id: number) => {
-  const { rowCount } = await db.query(
-    `DELETE FROM 
-       comments
-     WHERE 
-       comment_id = $1`,
-    [comment_id]
-  );
+  const rowCount = await models.Comment.destroy({
+    where: { comment_id: comment_id },
+  });
+
   if (!rowCount) {
     throw new HttpError(404, "No data found");
   }

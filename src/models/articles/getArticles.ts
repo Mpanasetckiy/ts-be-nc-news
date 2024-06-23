@@ -1,4 +1,5 @@
-import db from "../../db/connection";
+import { Sequelize } from "sequelize";
+import * as models from "../../db/models";
 
 import { Article } from "../../db/data/types";
 
@@ -37,46 +38,45 @@ export const getArticles = async (
     throw new ValidationError("Bad query value!");
   }
 
-  const queryValues = [];
+  const offset = +limit * +p - limit;
 
-  let sqlStr = `
-  SELECT 
-    articles.article_id, 
-    articles.author, 
-    users.avatar_url AS author_avatar_url, 
-    title, 
-    articles.body, 
-    topic, 
-    articles.created_at, 
-    articles.votes, 
-    article_img_url, 
-    COUNT(comments) :: INT AS comment_count
-  FROM 
-    articles
-  LEFT JOIN 
-    comments 
-  ON 
-    articles.article_id = comments.article_id
-  JOIN 
-    users 
-  ON
-    articles.author = users.username`;
-
-  if (topic) {
-    sqlStr += " WHERE topic = $1";
-    queryValues.push(topic);
-  }
-
-  sqlStr += ` GROUP BY articles.article_id, users.username
-       ORDER BY ${sort_by} ${order}`;
-
-  if (!isNaN(limit) && !isNaN(p)) {
-    const offset = +limit * +p - 10;
-    sqlStr += ` LIMIT ${limit} OFFSET ${offset}`;
-  } else {
-    throw new ValidationError("Bad query value!");
-  }
-  const { rows: articles } = await db.query(sqlStr, queryValues);
+  const articles = await models.Article.findAll({
+    attributes: [
+      "article_id",
+      "author",
+      [Sequelize.col("user.avatar_url"), "author_avatar_url"],
+      "title",
+      "body",
+      "topic",
+      "created_at",
+      "votes",
+      "article_img_url",
+      [
+        Sequelize.cast(
+          Sequelize.fn("COUNT", Sequelize.col("comments")),
+          "integer"
+        ),
+        "comment_count",
+      ],
+    ],
+    include: [
+      {
+        model: models.Comment,
+        attributes: [],
+      },
+      {
+        model: models.User,
+        attributes: [],
+        required: true,
+      },
+    ],
+    where: topic ? { topic } : {},
+    group: ["articles.article_id", "user.username"],
+    order: [[sort_by, order]],
+    subQuery: false,
+    limit,
+    offset,
+  });
 
   return articles;
 };

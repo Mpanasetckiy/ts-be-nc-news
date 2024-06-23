@@ -1,5 +1,6 @@
-import db from "../../db/connection";
+import { Sequelize } from "sequelize";
 
+import * as models from "../../db/models";
 import { Comment } from "../../db/data/types";
 
 import { HttpError, ValidationError } from "../../middleware/error-handling";
@@ -10,47 +11,43 @@ export const getCommentsByArticleId = async (
 ): Promise<Comment[]> => {
   const { limit = 10, p = 1 } = queries;
 
-  const { rows: existingRows } = await db.query(
-    `SELECT 
-      article_id 
-     FROM 
-      articles
-     WHERE 
-      article_id = $1`,
-    [articleId]
-  );
-
-  if (!existingRows.length) {
-    throw new HttpError(404, "No data found");
-  }
-
-  let queryStr = `
-  SELECT 
-    comment_id, 
-    comments.body, 
-    comments.article_id, 
-    comments.author, 
-    users.avatar_url AS author_avatar_url, 
-    votes, 
-    created_at 
-  FROM 
-    comments
-  JOIN 
-    users 
-  ON 
-    comments.author = users.username
-  WHERE 
-    article_id = $1
-  ORDER BY created_at DESC`;
-
-  if (!isNaN(limit) && !isNaN(p)) {
-    const offset = +limit * +p - 10;
-    queryStr += ` LIMIT ${limit} OFFSET ${offset}`;
-  } else {
+  if (isNaN(limit) || isNaN(p)) {
     throw new ValidationError("Bad query value!");
   }
 
-  const { rows: articles } = await db.query(queryStr, [articleId]);
+  const offset = +limit * +p - 10;
 
-  return articles;
+  const article = await models.Article.findOne({
+    where: { article_id: articleId },
+  });
+
+  if (!article) {
+    throw new HttpError(404, "No data found");
+  }
+
+  const comments = await models.Comment.findAll({
+    attributes: [
+      "comment_id",
+      "body",
+      "article_id",
+      "author",
+      "votes",
+      "created_at",
+      [Sequelize.col("user.avatar_url"), "author_avatar_url"],
+    ],
+    where: {
+      article_id: articleId,
+    },
+    include: [
+      {
+        model: models.User,
+        attributes: [],
+      },
+    ],
+    order: [["created_at", "DESC"]],
+    limit: limit,
+    offset: offset,
+  });
+
+  return comments;
 };

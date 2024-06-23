@@ -1,21 +1,19 @@
-import db from "../../db/connection";
+import * as models from "../../db/models";
 
 import { Topic } from "../../db/data/types";
+import { HttpError } from "../../middleware/error-handling";
 
 export const createTopic = async (newTopicBody: Topic): Promise<Topic> => {
   const { slug, description = "" } = newTopicBody;
 
-  const query = `
-  INSERT INTO topics
-    (slug, description)
-  VALUES ($1, $2)
-  RETURNING 
-    slug, 
-    description`;
+  if (!slug) {
+    throw new HttpError(400, "Bad request");
+  }
 
-  const {
-    rows: [topic],
-  } = await db.query(query, [slug, description]);
+  const topic = await models.Topic.create({
+    slug: slug,
+    description: description,
+  });
 
   return topic;
 };

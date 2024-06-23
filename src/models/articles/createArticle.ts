@@ -1,5 +1,4 @@
-import db from "../../db/connection";
-
+import * as models from "../../db/models";
 import { Article } from "../../db/data/types";
 
 export const createArticle = async (articleBody: {
@@ -20,23 +19,12 @@ export const createArticle = async (articleBody: {
     article_img_url = defaultArticleUrl,
   } = articleBody;
 
-  const query = `
-  INSERT INTO articles
-    (title, topic, author, body, article_img_url)
-  VALUES ($1, $2, $3, $4, $5)
-  RETURNING 
-    articles.author,
-    articles.article_id,
-    title,
-    topic,
-    body,
-    articles.votes,
-    articles.created_at,
-    article_img_url`;
-
-  const {
-    rows: [newArticle],
-  } = await db.query(query, [title, topic, author, body, article_img_url]);
-
+  const newArticle = await models.Article.create({
+    title: title,
+    topic: topic,
+    author: author,
+    body: body,
+    article_img_url: article_img_url,
+  });
   return newArticle;
 };
