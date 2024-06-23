@@ -13,7 +13,7 @@ beforeEach(async () => {
 });
 
 afterAll(async () => {
-  await db.end();
+  await db.close();
 });
 
 describe("COMMENTS endpoints", () => {
@@ -238,7 +238,7 @@ describe("COMMENTS endpoints", () => {
         .patch("/api/comments/blahblah")
         .send(votes)
         .expect(400);
-      expect(message).toBe("Invalid comment id provided");
+      expect(message).toBe("Bad request");
     });
 
     test("400 - PATCH: Responds with an appropriate error when invalid inc_vote provided", async () => {

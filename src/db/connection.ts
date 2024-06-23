@@ -8,7 +8,11 @@ dotenv.config({
   path: `${__dirname}/../../.env.${ENV}`,
 });
 
-const config: any = { dialect: "postgres", logging: false };
+if (!process.env.PG_DATABASE && !process.env.DATABASE_URL) {
+  throw new Error("PGDATABASE or DATABASE_URL not set");
+}
+
+const config: any = { dialect: "postgres", logging: false, host: "localhost" };
 
 if (ENV === "production") {
   config.url = process.env.DATABASE_URL;
@@ -17,10 +21,6 @@ if (ENV === "production") {
   };
 }
 
-if (!process.env.PG_DATABASE && !process.env.DATABASE_URL) {
-  throw new Error("PGDATABASE or DATABASE_URL not set");
-}
-
-const db = new Sequelize(config);
+const db = new Sequelize(process.env.PG_DATABASE, "maxbmaapc", "", config);
 
 export default db;

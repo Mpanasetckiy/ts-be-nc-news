@@ -11,10 +11,10 @@ export const updateComment = async (
 ) => {
   try {
     const commentId: number = Number(req.params.comment_id);
-    if (isNaN(commentId)) {
-      throw new ValidationError("Invalid comment id provided");
-    }
     const incVote: number = req.body.inc_vote;
+    if (isNaN(commentId) || isNaN(incVote)) {
+      throw new ValidationError("Bad request");
+    }
     const updatedComment = await commentsModel.updateComment(
       commentId,
       incVote

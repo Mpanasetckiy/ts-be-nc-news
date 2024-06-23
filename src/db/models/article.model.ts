@@ -4,7 +4,7 @@ import db from "../connection";
 import { User } from "./user.model";
 import { Topic } from "./topic.model";
 
-const Article = db.define("Article", {
+const Article = db.define("articles", {
   article_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
