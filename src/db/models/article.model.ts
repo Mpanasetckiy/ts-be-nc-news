@@ -1,8 +1,7 @@
 import { Sequelize, DataTypes } from "sequelize";
 
 import db from "../connection";
-import { User } from "./user.model";
-import { Topic } from "./topic.model";
+import { User, Topic, Comment } from "./";
 
 const Article = db.define("articles", {
   article_id: {

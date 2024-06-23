@@ -50,6 +50,8 @@ export const errorHandling = (
   res: Response,
   next: NextFunction
 ) => {
+  console.log(err);
+
   if (err instanceof DatabaseError && "code" in err.original) {
     // Handle PostgreSQL-specific errors
 

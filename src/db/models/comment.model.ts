@@ -1,7 +1,6 @@
 import { Sequelize, DataTypes } from "sequelize";
 import db from "../connection";
-import { Article } from "./article.model";
-import { User } from "./user.model";
+import * as models from "../models";
 
 const Comment = db.define(
   "comments",
@@ -39,7 +38,12 @@ const Comment = db.define(
   }
 );
 
-Comment.belongsTo(Article, { foreignKey: "article_id", onDelete: "CASCADE" });
-Comment.belongsTo(User, { foreignKey: "author", targetKey: "username" });
+Comment.belongsTo(models.Article, {
+  foreignKey: "article_id",
+  onDelete: "CASCADE",
+});
+
+models.Article.hasMany(Comment, { foreignKey: "article_id" });
+Comment.belongsTo(models.User, { foreignKey: "author", targetKey: "username" });
 
 export { Comment };

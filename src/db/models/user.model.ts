@@ -1,7 +1,8 @@
 import { DataTypes } from "sequelize";
 import db from "../../db/connection";
+import * as models from "../models";
 
-export const User = db.define("users", {
+const User = db.define("users", {
   username: {
     type: DataTypes.STRING,
     primaryKey: true,
@@ -14,3 +15,8 @@ export const User = db.define("users", {
     field: "avatar_url",
   },
 });
+
+// User.hasMany(models.Article, { foreignKey: "author", sourceKey: "username" });
+// User.hasMany(models.Comment, { foreignKey: "author", sourceKey: "username" });
+
+export { User };
