@@ -45,17 +45,19 @@ export class PostgresError extends Error {
 }
 
 export const errorHandling = (
-  err: PostgresError | HttpError | ValidationError,
+  err: HttpError | ValidationError,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  console.log(err);
-
   if (err instanceof DatabaseError && "code" in err.original) {
     // Handle PostgreSQL-specific errors
 
-    if (err.original.code === "23502" || err.original.code === "22P02") {
+    if (
+      err.original.code === "23502" ||
+      err.original.code === "22P02" ||
+      err.original.code === "42703"
+    ) {
       err = new ValidationError("Bad request");
     } else if (err.original.code === "23503") {
       err = new HttpError(404, "No key found");
@@ -63,6 +65,8 @@ export const errorHandling = (
       res.status(500).send({ message: "Internal Server Error" });
       return;
     }
+  } else if (err instanceof SequelizeValidationError) {
+    err = new ValidationError("Bad request");
   }
 
   // Handle generic application errors

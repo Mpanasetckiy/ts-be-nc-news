@@ -18,7 +18,7 @@ export const getArticleById = async (articleId: number): Promise<Article> => {
       "created_at",
       [
         Sequelize.cast(
-          Sequelize.fn("COUNT", Sequelize.col("comments.comment_id")),
+          Sequelize.fn("COUNT", Sequelize.col("comments")),
           "integer"
         ),
         "comment_count",

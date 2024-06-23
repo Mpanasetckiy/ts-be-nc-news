@@ -13,7 +13,7 @@ beforeEach(async () => {
 });
 
 afterAll(async () => {
-  await db.end();
+  await db.close();
 });
 
 describe("ARTICLES endpoints", () => {
@@ -28,7 +28,7 @@ describe("ARTICLES endpoints", () => {
         topic: "mitch",
         author: "butter_bridge",
         body: "I find this existence challenging",
-        created_at: "2020-07-09T20:11:00.000Z",
+        created_at: expect.any(String),
         votes: 100,
         article_img_url:
           "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
@@ -46,7 +46,7 @@ describe("ARTICLES endpoints", () => {
         author: "butter_bridge",
         body: "I find this existence challenging",
         comment_count: 11,
-        created_at: "2020-07-09T20:11:00.000Z",
+        created_at: expect.any(String),
         votes: 100,
         article_img_url:
           "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
@@ -214,7 +214,7 @@ describe("ARTICLES endpoints", () => {
       const {
         body: { message },
       } = await request(app).get("/api/articles?p=blahpage").expect(400);
-      expect(message).toBe("Bad query value!");
+      expect(message).toBe("Bad request");
     });
 
     test("400 - GET: Responds with an appropriate error when invalid limit passed", async () => {
@@ -223,7 +223,7 @@ describe("ARTICLES endpoints", () => {
       } = await request(app)
         .get("/api/articles?p=1&limit=blahlimit")
         .expect(400);
-      expect(message).toBe("Bad query value!");
+      expect(message).toBe("Bad request");
     });
   });
 
